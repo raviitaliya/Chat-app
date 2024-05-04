@@ -1,6 +1,7 @@
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Sidebar from './Sidebar';
 
 const localizer = momentLocalizer(moment);
 
@@ -37,7 +38,9 @@ const Calender = () => {
       };
     
       return (
-        <div style={{ height: '500px' }}>
+        <div className='w-full h-full flex'>
+        <Sidebar/>
+        <div className='mt-16' style={{ height: '500px',width:"100%" }}>
           <Calendar
             localizer={localizer}
             events={events}
@@ -46,6 +49,7 @@ const Calender = () => {
             eventPropGetter={eventStyleGetter}
             style={{ margin: '50px' }}
           />
+        </div>
         </div>
       );
     };
