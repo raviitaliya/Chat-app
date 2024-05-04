@@ -40,7 +40,7 @@ const Calender = () => {
       return (
         <div className='w-full h-full flex'>
         <Sidebar/>
-        <div className='mt-16' style={{ height: '500px',width:"100%" }}>
+        <div className='mt-16 h-[500px] w-[90%]'>
           <Calendar
             localizer={localizer}
             events={events}
