@@ -7,17 +7,17 @@ import { Link } from "react-router-dom";
 const Sidebar = () => {
   return (
     
-      <div className="h-screen w-20 border-r-2 flex row justify-center pt-4">
+      <div className="h-screen w-20 border-r-2 flex flex-col items-center  pt-4">
         <div className="w-auto h-auto ">
           <div className="bg-[#615EF0] rounded-md w-12 h-12 "></div>
-          <div className="grid justify-center mt-8">
+          <div className="flex flex-col items-center mt-8">
             <Link to="">
               <BsChatSquareDots className="text-[25px] text-gray-500" />
             </Link>
             <Link to="/">
               <IoCallOutline className="text-[25px] text-gray-500 mt-7" />
             </Link>
-            <Link to="/Calender">
+            <Link to="/calender">
               <IoCalendarOutline className="text-[25px] text-gray-500 mt-7" />
             </Link>
             <Link to="">
