@@ -11,6 +11,7 @@ const connect = async () => {
   //api endpoint
 
   app.use("/api", router);
+  
 
   await ConnectDB();
   const port = process.env.PORT || 4000;
