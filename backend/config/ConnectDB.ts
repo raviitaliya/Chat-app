@@ -1,18 +1,21 @@
 import mongoose, { connection } from "mongoose";
 
-const connectDB = async () => {
+const ConnectDB = async () => {
   try {
-    mongoose.connect(process.env.MONGODB_URL as string);
+    mongoose.connection.on("connected", () => {
+      console.log("connected to mongodb.");
+    });
 
-    connection.on("connected", () => {
-      console.log("database connected");
+    mongoose.connection.on("error", () => {
+      console.log("data base connnection error.");
     });
-    connection.on("error", (error) => {
-      console.log("error while DB connection", error);
-    });
+
+    const connect = await mongoose.connect(
+      "mongodb+srv://italiyaravi:bdj2icIbuzRcW2nq@chat-app.rcjipkb.mongodb.net/?retryWrites=true&w=majority&appName=chat-app"
+    );
   } catch (error) {
     console.log("error while DB connection", error);
   }
 };
 
-export default connectDB;
+export default ConnectDB;
