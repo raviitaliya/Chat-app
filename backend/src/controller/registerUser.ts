@@ -6,6 +6,10 @@ const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, profile_pic } = req.body;
 
+    if (!name || !email || !password) {
+      return res.status(400).json({ msg: "Please fill all the fields." });
+    }
+
     const checkEmail = await UserModel.findOne({ email });
 
     //email verification
@@ -22,8 +26,17 @@ const register = async (req: Request, res: Response) => {
         email,
         password: hashedPassword,
         profile_pic,
-        
       });
-    } catch (error) {}
-  } catch (error) {}
+    } catch (error) {
+      res.status(500).json({ msg: "all filds are require.." });
+
+      console.log(error);
+    }
+    res.status(200).json({ msg: "User registered successfully." });
+  } catch (error) {
+    res.status(500).json({ msg: "error while creating user.." });
+    console.log(error);
+  }
 };
+
+export { register };
