@@ -19,7 +19,6 @@ const Login = () => {
           </p>
           <form action="#" method="POST" className="mt-8">
             <div className="space-y-5">
-              
               <div>
                 <label
                   htmlFor="email"
@@ -79,9 +78,7 @@ const Login = () => {
               </div>
             </div>
           </form>
-          <div className="mt-3 space-y-3">
-           
-          </div>
+          <div className="mt-3 space-y-3"></div>
         </div>
       </div>
     </section>
