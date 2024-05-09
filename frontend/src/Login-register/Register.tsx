@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import UploadFile from "../helpers/UploadFile" 
+import UploadFile from "../helpers/UploadFile";
 
 const Register = () => {
   const [formData, setformData] = useState({
@@ -21,20 +21,27 @@ const Register = () => {
     e.preventDefault();
     const file = e.target.files[0];
 
-    const photo = await UploadFile(file)
+    const photo = await UploadFile(file);
 
-    console.log(photo);
-    
     setuploadPhoto(file);
+
+    setformData((preve) => {
+      return {
+        ...preve,
+        profile_photo: photo.url,
+      };
+    });
   };
 
-  const handleClearPhoto = (e : Event) => {
+  const handleClearPhoto = (e: Event) => {
     setuploadPhoto("");
     e.preventDefault();
     e.stopPropagation();
   };
 
   // console.log(uploadPhoto);
+  console.log(formData);
+  
 
   return (
     <section>
@@ -47,7 +54,7 @@ const Register = () => {
           <p className="mt-4 text-center text-base text-gray-600">
             Already have an account?
             <Link
-              to='/login'
+              to="/login"
               title=""
               className="font-medium text-[#615EF0] transition-all duration-200 hover:underline"
             >
