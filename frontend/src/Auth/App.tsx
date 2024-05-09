@@ -1,10 +1,10 @@
-import Calender from "./components/Calender";
-import Login from "./Login-register/Login";
-import Register from "./Login-register/Register";
-import Message from "./components/Message";
-import Home from "./components/Home";
+import Calender from "../components/Calender";
+import Login from "../Login-register/Login";
+import Register from "../Login-register/Register";
+import Message from "../components/Message";
+import Home from "../components/Home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import AuthLayout from "./Auth/AuthLayout";
+import AuthLayout from "./AuthLayout";
 
 import "./App.css";
 

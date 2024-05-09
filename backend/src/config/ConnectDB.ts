@@ -11,7 +11,7 @@ const ConnectDB = async () => {
     });
 
     const connect = await mongoose.connect(
-      "mongodb+srv://italiyaravi:bdj2icIbuzRcW2nq@chat-app.rcjipkb.mongodb.net/?retryWrites=true&w=majority&appName=chat-app"
+      process.env.MONGODB_URL as string
     );
   } catch (error) {
     console.log("error while DB connection", error);
