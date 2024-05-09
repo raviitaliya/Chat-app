@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import UploadFile from "../helpers/UploadFile" 
 
 const Register = () => {
   const [formData, setformData] = useState({
@@ -16,9 +17,14 @@ const Register = () => {
     e.preventDefault();
   };
 
-  const handleUpload = (e: Event) => {
+  const handleUpload = async (e: Event) => {
     e.preventDefault();
-    const file = e?.target?.files[0];
+    const file = e.target.files[0];
+
+    const photo = await UploadFile(file)
+
+    console.log(photo);
+    
     setuploadPhoto(file);
   };
 
@@ -28,7 +34,7 @@ const Register = () => {
     e.stopPropagation();
   };
 
-  console.log(uploadPhoto);
+  // console.log(uploadPhoto);
 
   return (
     <section>
