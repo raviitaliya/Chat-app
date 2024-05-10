@@ -1,47 +1,72 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UploadFile from "../helpers/UploadFile";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const [formData, setformData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    profile_photo: "",
+    profile_pic: "",
   });
 
-  const [uploadPhoto, setuploadPhoto] = useState("");
+  const [uploadPhoto, setUploadPhoto] = useState<File | undefined>();
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: Event) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/register`;
+
+    try {
+      const response = await axios.post(URL, formData);
+
+      if (response.status === 200) {
+        const success = toast.success(response.data.msg);
+
+        if(success){
+        setFormData({
+            name: "",
+            email: "",
+            password: "",
+            profile_pic: "",
+          });
+
+          navigate('/login');
+      }
+    }
+    } catch (error : any) {
+      console.log(error);
+
+      toast.error(error?.response?.data.msg);
+    }
   };
 
-  const handleUpload = async (e: Event) => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    if (!e.target.files || e.target.files.length < 1) return;
     const file = e.target.files[0];
 
     const photo = await UploadFile(file);
 
-    setuploadPhoto(file);
+    setUploadPhoto(file);
 
-    setformData((preve) => {
+    setFormData((prev) => {
       return {
-        ...preve,
-        profile_photo: photo.url,
+        ...prev,
+        profile_pic: photo.url,
       };
     });
   };
 
-  const handleClearPhoto = (e: Event) => {
-    setuploadPhoto("");
+  const handleClearPhoto = (e: React.MouseEvent) => {
+    setUploadPhoto(undefined);
     e.preventDefault();
     e.stopPropagation();
   };
-
-  // console.log(uploadPhoto);
-  console.log(formData);
-  
 
   return (
     <section>
@@ -62,7 +87,7 @@ const Register = () => {
             </Link>
           </p>
           <form
-            onSubmit={() => handleSubmit}
+            onSubmit={handleSubmit} // Use handleSubmit as the onSubmit event handler
             action="#"
             method="POST"
             className="mt-8"
@@ -83,11 +108,9 @@ const Register = () => {
                     id="name"
                     value={formData.name}
                     onChange={(e) =>
-                      setformData({
+                      setFormData({
+                        ...formData,
                         name: e.target.value,
-                        email: formData.email,
-                        password: formData.password,
-                        profile_photo: formData.profile_photo,
                       })
                     }
                   />
@@ -108,11 +131,9 @@ const Register = () => {
                     id="email"
                     value={formData.email}
                     onChange={(e) =>
-                      setformData({
-                        name: formData.name,
+                      setFormData({
+                        ...formData,
                         email: e.target.value,
-                        password: formData.password,
-                        profile_photo: formData.profile_photo,
                       })
                     }
                   />
@@ -135,11 +156,9 @@ const Register = () => {
                     id="password"
                     value={formData.password}
                     onChange={(e) =>
-                      setformData({
-                        name: formData.name,
-                        email: formData.email,
+                      setFormData({
+                        ...formData,
                         password: e.target.value,
-                        profile_photo: formData.profile_photo,
                       })
                     }
                   />
@@ -191,9 +210,9 @@ const Register = () => {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="ml-2"
                   >
                     <line x1="5" y1="12" x2="19" y2="12"></line>

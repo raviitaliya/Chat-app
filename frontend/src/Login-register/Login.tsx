@@ -1,26 +1,76 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/register`;
+
+    try {
+      const response = await axios.post(URL, formData);
+
+      if (response.status === 200) {
+        const success = toast.success(response.data.msg);
+
+        if(success){
+        setFormData({
+            email: "",
+            password: "",
+          });
+
+          navigate('/login');
+      }
+    }
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error?.response?.data.msg);
+    }
+  };
+
+
+
+   
+
+ 
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <div className="mb-2 flex justify-center"></div>
           <h2 className="text-center text-3xl font-bold leading-tight text-black">
-            Login
+            Login 
           </h2>
           <p className="mt-4 text-center text-base text-gray-600">
-            Create an account?
+            Don't have an account?
             <Link
               to="/register"
               title=""
               className="font-medium text-[#615EF0] transition-all duration-200 hover:underline"
             >
-              Sign up
+              Sing up
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+          <form
+            onSubmit={handleSubmit} 
+            action="#"
+            method="POST"
+            className="mt-8"
+          >
             <div className="space-y-5">
+             
               <div>
                 <label
                   htmlFor="email"
@@ -34,6 +84,13 @@ const Login = () => {
                     type="email"
                     placeholder="Email"
                     id="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        email: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -52,15 +109,23 @@ const Login = () => {
                     type="password"
                     placeholder="Password"
                     id="password"
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        password: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
+
               <div>
                 <button
-                  type="button"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-[#615EF0] px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                  type="submit"
+                  className="inline-flex w-full items-center justify-center rounded-md bg-[#615EF0] px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-secondary"
                 >
-                  Create Account
+                  Login
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -68,9 +133,9 @@ const Login = () => {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="ml-2"
                   >
                     <line x1="5" y1="12" x2="19" y2="12"></line>

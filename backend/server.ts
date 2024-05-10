@@ -1,23 +1,26 @@
 import express from "express";
 import env from "dotenv";
-const app = express();
 import ConnectDB from "./src/config/ConnectDB";
 import router from "./src/routes/userRouter";
+import cors from "cors";
 
 env.config();
+const app = express();
+
+// Apply CORS middleware
+app.use(cors());
+
 app.use(express.json());
 
 const connect = async () => {
-  //api endpoint
-
+  // API endpoints
   app.use("/api", router);
   
-
   await ConnectDB();
   const port = process.env.PORT || 4000;
 
   app.listen(port, () => {
-    console.log(`app listening on port ${port}!`);
+    console.log(`App listening on port ${port}!`);
   });
 };
 
