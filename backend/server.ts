@@ -3,6 +3,7 @@ import env from "dotenv";
 import ConnectDB from "./src/config/ConnectDB";
 import router from "./src/routes/userRouter";
 import cors from "cors";
+import cookieParser from 'cookie-parser'
 
 env.config();
 const app = express();
@@ -11,11 +12,12 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+app.use(cookieParser());
 
 const connect = async () => {
   // API endpoints
   app.use("/api", router);
-  
+
   await ConnectDB();
   const port = process.env.PORT || 4000;
 

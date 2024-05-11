@@ -2,48 +2,47 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FaArrowRight } from "react-icons/fa6";
 
 const Login = () => {
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/register`;
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/login`;
 
     try {
-      const response = await axios.post(URL, formData);
+      const response = await axios({
+        method: "post",
+        url: URL,
+        data: formData,
+      });
 
       if (response.status === 200) {
         const success = toast.success(response.data.msg);
+        localStorage.setItem("token", response.data.token); 
 
-        if(success){
-        setFormData({
+        if (success) {
+          setFormData({
             email: "",
             password: "",
           });
 
-          navigate('/login');
+          navigate("/");
+        }
       }
-    }
     } catch (error) {
       console.log(error);
 
-      toast.error(error?.response?.data.msg);
+      toast.error("error");
     }
   };
-
-
-
-   
-
- 
 
   return (
     <section>
@@ -51,7 +50,7 @@ const Login = () => {
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <div className="mb-2 flex justify-center"></div>
           <h2 className="text-center text-3xl font-bold leading-tight text-black">
-            Login 
+            Login
           </h2>
           <p className="mt-4 text-center text-base text-gray-600">
             Don't have an account?
@@ -64,13 +63,12 @@ const Login = () => {
             </Link>
           </p>
           <form
-            onSubmit={handleSubmit} 
+            onSubmit={handleSubmit}
             action="#"
             method="POST"
             className="mt-8"
           >
             <div className="space-y-5">
-             
               <div>
                 <label
                   htmlFor="email"
@@ -123,24 +121,10 @@ const Login = () => {
               <div>
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-[#615EF0] px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-secondary"
+                  className="inline-flex w-full items-center  justify-center rounded-md bg-[#615EF0] px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-secondary"
                 >
                   Login
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="ml-2"
-                  >
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
+                  <FaArrowRight className="ml-2 mt-1 text-sm " />
                 </button>
               </div>
             </div>

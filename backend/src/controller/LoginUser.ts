@@ -3,9 +3,12 @@ import UserModel from "../Models/UserModel";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 
+
+
 const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    res.cookie("login","hello")
     if (!email || !password) {
       return res.status(400).json({ msg: "Please fill all the fields." });
     }
@@ -24,17 +27,19 @@ const login = async (req: Request, res: Response) => {
       tokenData,
       process.env.JWT_SECRET_KEY as string,
       {
-        expiresIn: "1d",
+        expiresIn: "30d",
       }
     );
 
     if (!isMatch) {
       return res.status(400).json({ msg: "Invalid credentials." });
     }
+
+    res.cookie("jwt",token);
+   
     return res
-      .cookie("token", token)
       .status(200)
-      .json({ msg: "User logged in successfully." });
+      .json({ msg: "user login sucessfull",token});
   } catch (error) {
     res.status(500).json({ msg: "error while logging in user." });
     console.log(error);

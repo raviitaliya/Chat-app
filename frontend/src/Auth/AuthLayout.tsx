@@ -3,7 +3,7 @@ import React from 'react'
 const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
-    <div>AuthLayout</div>
+    {/* <div>AuthLayout</div> */}
     {children}
     </>
   )
