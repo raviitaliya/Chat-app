@@ -22,11 +22,11 @@ const Login = () => {
         method: "post",
         url: URL,
         data: formData,
-      });
+        withCredentials: true,
+      })
 
       if (response.status === 200) {
         const success = toast.success(response.data.msg);
-        localStorage.setItem("token", response.data.token); 
 
         if (success) {
           setFormData({
@@ -43,6 +43,8 @@ const Login = () => {
       toast.error("error");
     }
   };
+
+  console.log(formData);
 
   return (
     <section>
