@@ -1,7 +1,10 @@
-import React from "react";
 import Sidebar from "./Sidebar";
+import axios from "axios";
 
 const Home = () => {
+
+
+      
   return (
     <div>
       <Sidebar />
