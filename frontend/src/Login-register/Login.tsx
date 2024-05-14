@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { setToken } from "../Redux/Slice";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,6 +32,10 @@ const Login = () => {
         const success = toast.success(response.data.msg);
 
         if (success) {
+
+          dispatch(setToken(response.data.token));
+          localStorage.setItem('token', response.data.token);
+          
           setFormData({
             email: "",
             password: "",
@@ -44,7 +51,6 @@ const Login = () => {
     }
   };
 
-  console.log(formData);
 
   return (
     <section>

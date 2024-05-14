@@ -49,7 +49,7 @@ const login = async (req: Request, res: Response) => {
     return res
       .cookie("token", token,cookieOptions)
       .status(200)
-      .json({ msg: "User logged in successfully." });
+      .json({ msg: "User logged in successfully.",token});
   } catch (error) {
     res.status(500).json({ msg: "error while logging in user." });
     console.log(error);

@@ -1,37 +1,55 @@
+import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import axios from "axios";
+import { logout, setUser } from "../Redux/Slice";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const user = useSelector((state) => state?.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  console.log("data",user);
 
-  const getUserdata = async ()=>{
-
-
-  const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
+  const getUserdata = async () => {
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
 
     try {
       const response = await axios({
         method: "get",
         url: URL,
         withCredentials: true,
-      })
+      });
 
-      const userData = response.data;
+      dispatch(setUser(response.data));
 
-      console.log(userData);
-      
-    }
-      catch (err) {
-        console.log(err);
-        
+      if (response.data.logout) {
+        dispatch(logout());
+        navigate("/login");
       }
-  }
 
-  getUserdata()
-      
+      // const userData = response.data;
+
+      // console.log(userData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getUserdata();
+
   return (
-    <div>
+    <div className="grid grid-cols-[330px,1fr] lg:grid-cols-[330px,1fr]">
+      <div className="grid grid-cols-[80px,1fr] lg:grid-cols-[80px,1fr]">
       <Sidebar />
+      <div className=""> 
+        ravi
+      </div>
+      </div>
+      
+      <div>
+        msg
+      </div>
     </div>
   );
 };
