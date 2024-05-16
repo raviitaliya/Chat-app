@@ -43,12 +43,12 @@ const Home = () => {
       <div className="grid grid-cols-[80px,1fr] lg:grid-cols-[80px,1fr]">
       <Sidebar />
       <div className=""> 
-        ravi
+        
       </div>
       </div>
       
-      <div>
-        msg
+      <div className="border-l-2 border-slate-200">
+        
       </div>
     </div>
   );

@@ -4,14 +4,15 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import EditUserDetails from "../components/EditUserDetails"
+import { useSelector } from "react-redux";
+
 
 const Sidebar = () => {
-
-
-  const handleProfile=()=>{
-    console.log("hello");
-    
-  }
+  const user = useSelector(state => state?.user)
+  const [editProfile, seteditProfile] = useState(false);
+  
 
   return (
     <div className="h-screen w-20 border-r-2 flex flex-col items-center justify-between pt-4 ">
@@ -32,12 +33,17 @@ const Sidebar = () => {
           <div className="mb-6">
             <IoSettingsOutline className="text-[30px] text-gray-500 mt-7 hover:text-gray-800" />
           </div>
-          </Link>
-          <div >
-          <HiOutlineUserCircle onClick={handleProfile} className="text-5xl text-gray-500 mb-5 hover:text-gray-800"/>
-          </div>
-        
+        </Link>
+        <button onClick={()=>seteditProfile(true)}>
+          <HiOutlineUserCircle
+            className="text-5xl text-gray-500 mb-5 hover:text-gray-800"
+          />
+        </button>
       </div>
+
+      {
+        editProfile && (<EditUserDetails data={user}/>)
+      }
     </div>
   );
 };
