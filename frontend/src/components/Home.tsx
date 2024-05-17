@@ -9,7 +9,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("data",user);
+  // console.log("data",user);
 
   const getUserdata = async () => {
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;

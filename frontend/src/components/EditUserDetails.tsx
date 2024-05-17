@@ -2,12 +2,14 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { setUser } from "../Redux/Slice";
+import UploadFile from "../helpers/UploadFile";
 
 const EditUserDetails = ({ onclose, data }) => {
   const placeholderImg = "../public/img/empty_profile.jpg";
   const profile_pic = data.profile_pic || placeholderImg;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [updateUser, setupdateUser] = useState({
     name: data.name,
@@ -17,27 +19,32 @@ const EditUserDetails = ({ onclose, data }) => {
   const uploadPhotoRef = useRef();
 
   useEffect(() => {
-    setupdateUser((preve) => {
+    setupdateUser((prev) => {
       return {
-        ...preve,
+        ...prev,
         ...data,
       };
     });
   }, [data]);
 
-  const handleOnChenge = (e) => {
+  const handleTextChange = (e) => {
     const { name, value } = e.target;
-
-    setupdateUser((preve) => {
-      return {
-        ...preve,
-        [name]: value,
-      };
-    });
+    setupdateUser((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  console.log(updateUser);
-  console.log("beuwebfbe", data);
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const photo = await UploadFile(file);
+      setupdateUser((prev) => ({
+        ...prev,
+        profile_pic: photo.url,
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,16 +65,17 @@ const EditUserDetails = ({ onclose, data }) => {
 
       toast.success(response.data.message);
 
-      if(!response.data.)
+      if (response.data.success) {
+        dispatch(setUser(response.data.user));
+      }
     } catch (err) {
-      toast.error("error");
+      toast.error("Error updating user");
     }
   };
 
   const handleProfile = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
     uploadPhotoRef.current.click();
   };
 
@@ -83,19 +91,20 @@ const EditUserDetails = ({ onclose, data }) => {
                 <img
                   className="w-[100px] object-cover items-center rounded-full border-2 h-[100px]"
                   src={profile_pic}
+                  alt="Profile"
                 />
                 <div className="flex items-center">
                   <button
                     onClick={handleProfile}
                     className="px-4 py-2 rounded-sm bg-primary text-white hover:bg-secondary "
                   >
-                    change photo
+                    Change photo
                   </button>
                   <input
                     type="file"
                     name="profile_pic"
                     className="hidden"
-                    onChange={handleOnChenge}
+                    onChange={handleFileChange}
                     ref={uploadPhotoRef}
                   />
                 </div>
@@ -104,31 +113,29 @@ const EditUserDetails = ({ onclose, data }) => {
 
             <div className="mt-4 flex flex-col">
               <label htmlFor="name" className="text-lg">
-                {" "}
                 Name:
               </label>
               <input
                 type="text"
                 name="name"
-                className=" p-2 mt-1 rounded-sm focus:outline-primary"
+                className="p-2 mt-1 rounded-sm focus:outline-primary"
                 value={updateUser.name}
-                onChange={handleOnChenge}
-              ></input>
+                onChange={handleTextChange}
+              />
             </div>
 
-            <div className="flex flex-row gap-3 ml-auto mr-2 w-fit mt-4 ">
+            <div className="flex flex-row gap-3 ml-auto mr-2 w-fit mt-4">
               <button
                 className="px-5 py-2 rounded-sm border-2 border-primary hover:-translate-y-1 duration-200"
                 onClick={onclose}
               >
-                cencel
+                Cancel
               </button>
               <button
                 type="submit"
-                onClick={handleSubmit}
                 className="px-5 py-2 border border-primary rounded-sm text-white bg-primary hover:bg-secondary hover:-translate-y-1 duration-200"
               >
-                save
+                Save
               </button>
             </div>
           </form>

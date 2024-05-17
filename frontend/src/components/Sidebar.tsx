@@ -2,7 +2,6 @@ import { BsChatSquareDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
 import { IoCalendarOutline } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
-import { HiOutlineUserCircle } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import EditUserDetails from "../components/EditUserDetails"
@@ -38,7 +37,7 @@ const Sidebar = () => {
           </div>
         </Link>
         <button title="profile" onClick={()=>seteditProfile(true)}>
-        <img className="w-[40px] object-cover mb-5 border-2 rounded-full h-[40px]" src={profile_pic} />
+        <img className="w-[40px] object-top object-cover mb-5 border-2 rounded-full h-[40px]" src={profile_pic} />
         </button>
       </div>
 
