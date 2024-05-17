@@ -26,16 +26,15 @@ const Login = () => {
         url: URL,
         data: formData,
         withCredentials: true,
-      })
+      });
 
       if (response.status === 200) {
         const success = toast.success(response.data.msg);
 
         if (success) {
-
           dispatch(setToken(response.data.token));
-          localStorage.setItem('token', response.data.token);
-          
+          localStorage.setItem("token", response.data.token);
+
           setFormData({
             email: "",
             password: "",
@@ -50,7 +49,6 @@ const Login = () => {
       toast.error("error");
     }
   };
-
 
   return (
     <section>
