@@ -12,6 +12,9 @@ import { useSelector } from "react-redux";
 const Sidebar = () => {
   const user = useSelector(state => state?.user)
   const [editProfile, seteditProfile] = useState(false);
+
+  const placeholderImg = "../public/img/empty_profile.jpg";
+  const profile_pic = user.profile_pic || placeholderImg;
   
 
   return (
@@ -34,15 +37,13 @@ const Sidebar = () => {
             <IoSettingsOutline className="text-[30px] text-gray-500 mt-7 hover:text-gray-800" />
           </div>
         </Link>
-        <button onClick={()=>seteditProfile(true)}>
-          <HiOutlineUserCircle
-            className="text-5xl text-gray-500 mb-5 hover:text-gray-800"
-          />
+        <button title="profile" onClick={()=>seteditProfile(true)}>
+        <img className="w-[40px] object-cover mb-5 border-2 rounded-full h-[40px]" src={profile_pic} />
         </button>
       </div>
 
       {
-        editProfile && (<EditUserDetails data={user}/>)
+        editProfile && (<EditUserDetails onclose={()=>seteditProfile(false)} data={user}/>)
       }
     </div>
   );

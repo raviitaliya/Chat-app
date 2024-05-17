@@ -10,7 +10,7 @@ router.post("/register", register);
 
 router.post("/login", login);
 
-router.put("/user", UpdateUser);
+router.put("/update-User", UpdateUser);
 
 router.get("/user-details", userDetails);
 
