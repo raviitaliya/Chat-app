@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import axios from "axios";
 import { logout, setUser } from "../Redux/Slice";
 import { useNavigate } from "react-router-dom";
+import Message from "./Message";
 
 const Home = () => {
   const user = useSelector((state) => state?.user);
@@ -39,17 +40,15 @@ const Home = () => {
   getUserdata();
 
   return (
-    <div className="grid grid-cols-[330px,1fr] lg:grid-cols-[330px,1fr]">
-      <div className="grid grid-cols-[80px,1fr] lg:grid-cols-[80px,1fr]">
-      <Sidebar />
-      <div className=""> 
-        
+    <div className="grid grid-cols-[400px,1fr] ">
+      <div className="grid grid-cols-[64px,1fr]">
+        <Sidebar />
+        <div className="">
+          <Message />
+        </div>
       </div>
-      </div>
-      
-      <div className="border-l-2 border-slate-200">
-        
-      </div>
+
+      <div className="border-l-2 border-slate-200"></div>
     </div>
   );
 };

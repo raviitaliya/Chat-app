@@ -6,20 +6,22 @@ import { setUser } from "../Redux/Slice";
 import UploadFile from "../helpers/UploadFile";
 
 const EditUserDetails = ({ onclose, data }) => {
-  const placeholderImg = "../public/img/empty_profile.jpg";
-  const profile_pic = data.profile_pic || placeholderImg;
-
   const dispatch = useDispatch();
 
-  const [updateUser, setupdateUser] = useState({
+  const [updateUser, setUpdateUser] = useState({
     name: data.name,
     profile_pic: data.profile_pic,
   });
 
+  const placeholderImg = "../public/img/empty_profile.jpg";
+  const profile_pic = updateUser.profile_pic || placeholderImg;
+
+  const [loading, setLoading] = useState(false); // State to manage loading status
+
   const uploadPhotoRef = useRef();
 
   useEffect(() => {
-    setupdateUser((prev) => {
+    setUpdateUser((prev) => {
       return {
         ...prev,
         ...data,
@@ -29,7 +31,7 @@ const EditUserDetails = ({ onclose, data }) => {
 
   const handleTextChange = (e) => {
     const { name, value } = e.target;
-    setupdateUser((prev) => ({
+    setUpdateUser((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -38,11 +40,18 @@ const EditUserDetails = ({ onclose, data }) => {
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const photo = await UploadFile(file);
-      setupdateUser((prev) => ({
-        ...prev,
-        profile_pic: photo.url,
-      }));
+      setLoading(true); // Start loading
+      try {
+        const photo = await UploadFile(file);
+        setUpdateUser((prev) => ({
+          ...prev,
+          profile_pic: photo.url,
+        }));
+      } catch (error) {
+        toast.error("Error uploading photo");
+      } finally {
+        setLoading(false); // Stop loading
+      }
     }
   };
 
@@ -96,9 +105,10 @@ const EditUserDetails = ({ onclose, data }) => {
                 <div className="flex items-center">
                   <button
                     onClick={handleProfile}
-                    className="px-4 py-2 rounded-sm bg-primary text-white hover:bg-secondary "
+                    className="px-4 py-2 rounded-sm bg-primary text-white hover:bg-secondary"
+                    disabled={loading}
                   >
-                    Change photo
+                    {loading ? "Uploading..." : "Change photo"}
                   </button>
                   <input
                     type="file"
@@ -123,8 +133,8 @@ const EditUserDetails = ({ onclose, data }) => {
                 onChange={handleTextChange}
               />
             </div>
-
-            <div className="flex flex-row gap-3 ml-auto mr-2 w-fit mt-4">
+            {/* <div className="border-[1px] mt-4 border-primary "></div> */}
+            <div className="flex flex-row gap-3 ml-auto mr-2 w-fit mt-5">
               <button
                 className="px-5 py-2 rounded-sm border-2 border-primary hover:-translate-y-1 duration-200"
                 onClick={onclose}
