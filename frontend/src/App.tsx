@@ -6,10 +6,39 @@ import Home from "./components/Home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import AuthLayout from "./Auth/AuthLayout";
 import { Toaster} from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./App.css";
+import axios from "axios";
+import { setUser } from "./Redux/Slice";
 
 function App() {
+
+  const user = useSelector((state) => state?.user);
+  const dispatch = useDispatch();
+
+  // console.log("data",user);
+
+  const getUserdata = async () => {
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
+
+    try {
+      const response = await axios({
+        method: "get",
+        url: URL,
+        withCredentials: true,
+      });
+
+      dispatch(setUser(response.data));
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getUserdata();
+
+
   const Router = createBrowserRouter([
     {
       path: "/",

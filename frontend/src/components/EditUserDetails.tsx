@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Redux/Slice";
 import UploadFile from "../helpers/UploadFile";
+import Loading from "../helpers/Loading";
 
 const EditUserDetails = ({ onclose, data }) => {
   const dispatch = useDispatch();
@@ -89,7 +90,7 @@ const EditUserDetails = ({ onclose, data }) => {
   };
 
   return (
-    <div className="fixed left-0 right-0 top-0 bottom-0 bg-slate-700 bg-opacity-40 flex items-center justify-center">
+    <div className="fixed z-10 left-0 right-0 top-0 bottom-0 bg-slate-700 bg-opacity-40 flex items-center justify-center">
       <div className="max-w-sm p-5 pt-6 rounded-md bg-white w-full">
         <h2 className="text-xl font-medium">Profile Details</h2>
         <div className="mt-3 ">
@@ -108,7 +109,7 @@ const EditUserDetails = ({ onclose, data }) => {
                     className="px-4 py-2 rounded-sm bg-primary text-white hover:bg-secondary"
                     disabled={loading}
                   >
-                    {loading ? "Uploading..." : "Change photo"}
+                    {loading ? <Loading/> : "Change photo"}
                   </button>
                   <input
                     type="file"

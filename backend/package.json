@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.ts"
+    "dev": "nodemon server.ts",
+    "build":"tsc",
+    "start":"bun build/server.js"
   },
   "author": "ravi italiya",
   "license": "ISC",
