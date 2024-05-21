@@ -43,7 +43,7 @@ const Home = () => {
     <div className="grid grid-cols-[400px,1fr] ">
       <div className="grid grid-cols-[64px,1fr]">
         <Sidebar />
-        <div className="">
+        <div className="overflow-hidden">
           <Message />
         </div>
       </div>

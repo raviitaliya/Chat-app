@@ -14,7 +14,7 @@ const EditUserDetails = ({ onclose, data }) => {
     profile_pic: data.profile_pic,
   });
 
-  const placeholderImg = "../public/img/empty_profile.jpg";
+  const placeholderImg = "../../img/empty profile.jpg";
   const profile_pic = updateUser.profile_pic || placeholderImg;
 
   const [loading, setLoading] = useState(false); // State to manage loading status

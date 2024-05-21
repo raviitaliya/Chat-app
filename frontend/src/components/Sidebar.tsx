@@ -12,7 +12,7 @@ const Sidebar = () => {
   const user = useSelector(state => state?.user)
   const [editProfile, seteditProfile] = useState(false);
 
-  const placeholderImg = "../public/img/empty_profile.jpg";
+  const placeholderImg = "../../img/empty profile.jpg";
   const profile_pic = user.profile_pic || placeholderImg;
   
 
