@@ -6,6 +6,7 @@ interface User {
   email: string;
   profile_pic: string;
   token: string;
+  online: string[]; 
 }
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   email: "",
   profile_pic: "",
   token: "",
+  online: []
 };
 
 export const counterSlice = createSlice({
@@ -36,9 +38,12 @@ export const counterSlice = createSlice({
       state.profile_pic = "";
       state.token = "";
     },
+    onlineUser: (state, action: PayloadAction<string[]>) => {
+      state.online = action.payload; 
+    }
   },
 });
 
-export const { setUser, setToken, logout } = counterSlice.actions;
+export const { setUser, setToken, logout, onlineUser } = counterSlice.actions;
 
 export default counterSlice.reducer;

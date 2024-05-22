@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import http, { Server as HTTPServer } from "http";
 import dotenv from "dotenv";
 import { userDetails } from '../controller/getUserFromToken';
@@ -18,18 +18,21 @@ const io: Server = new Server(server, {
 
 const online: Set<string> = new Set(); 
 
-io.on("connection", async (socket) => {
+io.on("connection", async (socket: Socket) => {
   console.log("a user connected", socket.id);
-
+  
+  let user: any = null;
   const token: string | undefined = socket.handshake.auth.token;
 
   if (token) {
-    const user = await userDetails(token);
+    user = await userDetails(token);
 
     if (user) {
       const userId: string = user._id.toString(); 
       socket.join(userId);
       online.add(userId);
+
+      io.emit('onlineuser', Array.from(online));
     } else {
       console.error("User not found based on token:", token);
     }
@@ -38,6 +41,11 @@ io.on("connection", async (socket) => {
   }
 
   socket.on("disconnect", () => {
+    if (user) {
+      const userId: string = user._id.toString(); 
+      online.delete(userId);
+      io.emit('onlineuser', Array.from(online));
+    }
     console.log("user disconnected", socket.id);
   });
 });
