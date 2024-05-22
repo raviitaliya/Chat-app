@@ -4,9 +4,8 @@ import ConnectDB from "./src/config/ConnectDB";
 import router from "./src/routes/userRouter";
 import cors from "cors";
 import cookieParser from 'cookie-parser'
-import {server} from './src/socket/index' 
+import {server,app} from './src/socket/index' 
 env.config();
-const app  = express();
 
 
 app.use(cors({
@@ -27,6 +26,7 @@ const connect = async () => {
   server.listen(port, () => {
     console.log(`App listening on port ${port}!`);
   });
+
 };
 
 connect();
