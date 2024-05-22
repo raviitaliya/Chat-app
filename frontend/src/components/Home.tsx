@@ -4,13 +4,14 @@ import axios from "axios";
 import { logout, setUser } from "../Redux/Slice";
 import { useNavigate } from "react-router-dom";
 import Message from "./Message";
+import io from "socket.io-client";
+import { useEffect } from "react";
 
 const Home = () => {
   const user = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // console.log("data",user);
 
   const getUserdata = async () => {
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
@@ -28,16 +29,26 @@ const Home = () => {
         dispatch(logout());
         navigate("/login");
       }
-
-      // const userData = response.data;
-
-      // console.log(userData);
     } catch (err) {
       console.log(err);
     }
   };
-
   getUserdata();
+
+  
+
+  useEffect(() => {
+    const socketconnection = io(import.meta.env.VITE_BACKEND_URL, {
+      auth: {
+        token: localStorage.getItem('token'),
+      },
+    });
+    return () => {
+      socketconnection.disconnect();
+    };
+  }, []);
+
+
 
   return (
     <div className="grid grid-cols-[400px,1fr] ">
