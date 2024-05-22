@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.ts",
-    "build":"tsc",
-    "start":"bun build/server.js"
+    "build": "tsc",
+    "start": "bun build/server.js"
   },
   "author": "ravi italiya",
   "license": "ISC",
@@ -36,6 +36,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.3",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.7.5"
   }
 }
