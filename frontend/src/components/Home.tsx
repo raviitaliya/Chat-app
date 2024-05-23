@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import axios from "axios";
-import { logout, onlineUser, setUser } from "../Redux/Slice";
+import { logout, onlineUser, setUser, setSocketConnection } from "../Redux/Slice";
 import { useNavigate } from "react-router-dom";
 import Message from "./Message";
 import io from "socket.io-client";
 import { useEffect } from "react";
 import { GlobalStore } from "../Redux/Store";
+import UserMassage from "./UserMassage";
 
 const Home = () => {
   const user = useSelector<GlobalStore>((state) => state?.user);
@@ -14,7 +15,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   console.log(user);
-  
+
   const getUserdata = async () => {
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
 
@@ -45,10 +46,12 @@ const Home = () => {
     });
 
     socketconnection.on("onlineuser", (data) => {
-      console.log("online",data);
+      console.log("online", data);
       dispatch(onlineUser(data));
     });
 
+    dispatch(setSocketConnection(socketconnection)); 
+    
     return () => {
       socketconnection.disconnect();
     };
@@ -64,7 +67,7 @@ const Home = () => {
       </div>
 
       <div className="border-l-2 border-slate-200">
-        <h1>hello user!!</h1>
+        <UserMassage />
       </div>
     </div>
   );

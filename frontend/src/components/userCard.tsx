@@ -3,8 +3,17 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GlobalStore } from "../Redux/Store";
 
-const UserCard = ({ data }) => {
-  const onlineStatus = useSelector<GlobalStore>((state) => state?.user?.online) as string[];
+interface UserCardProps {
+  data: {
+    _id: string;
+    name: string;
+    profile_pic?: string;
+  };
+  searchOpen: (value: string) => void;
+}
+
+const UserCard: React.FC<UserCardProps> = ({ data, searchOpen }) => {
+  const onlineStatus = useSelector<GlobalStore, string[]>(state => state?.user?.online) || [];
   const placeholderImg = "../../img/empty profile.jpg";
   const navigate = useNavigate();
 
@@ -12,6 +21,7 @@ const UserCard = ({ data }) => {
 
   const handleClick = () => {
     navigate(`/user/${data._id}`);
+    searchOpen("");
   };
 
   return (
