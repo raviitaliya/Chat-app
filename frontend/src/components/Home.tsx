@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import Message from "./Message";
 import io from "socket.io-client";
 import { useEffect } from "react";
+import { GlobalStore } from "../Redux/Store";
 
 const Home = () => {
-  const user = useSelector((state) => state?.user);
+  const user = useSelector<GlobalStore>((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const Home = () => {
     });
 
     socketconnection.on("onlineuser", (data) => {
-      console.log(data);
+      console.log("online",data);
       dispatch(onlineUser(data));
     });
 
@@ -62,7 +63,9 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="border-l-2 border-slate-200"></div>
+      <div className="border-l-2 border-slate-200">
+        <h1>hello user!!</h1>
+      </div>
     </div>
   );
 };

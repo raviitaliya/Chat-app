@@ -1,14 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { GlobalStore } from "../Redux/Store";
 
 const UserCard = ({ data }) => {
-  const onlineStatus = useSelector(state => state?.user?.online);
+  const onlineStatus = useSelector<GlobalStore>((state) => state?.user?.online) as string[];
   const placeholderImg = "../../img/empty profile.jpg";
+  const navigate = useNavigate();
 
   const isOnline = onlineStatus.includes(data._id);
 
+  const handleClick = () => {
+    navigate(`/user/${data._id}`);
+  };
+
   return (
-    <div className="w-full h-16 border-2 border-primary flex items-center rounded-md mt-2 p-2">
+    <div 
+      className="w-full h-16 border-2 border-primary flex items-center rounded-md mt-2 p-2 cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="flex-shrink-0 w-12 h-12 mr-4">
         <img
           src={data.profile_pic ? data.profile_pic : placeholderImg}

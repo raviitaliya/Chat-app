@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface User {
+export interface User {
   _id: string ;
   name: string;
   email: string;
@@ -9,7 +9,7 @@ interface User {
   online: string[]; 
 }
 
-const initialState = {
+const initialState : User = {
   _id: "",
   name: "",
   email: "",

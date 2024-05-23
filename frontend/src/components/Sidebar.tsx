@@ -6,10 +6,12 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import EditUserDetails from "../components/EditUserDetails"
 import { useSelector } from "react-redux";
+import { GlobalStore } from "../Redux/Store";
+import { User } from "../Redux/Slice";
 
 
 const Sidebar = () => {
-  const user = useSelector(state => state?.user)
+  const user = useSelector<GlobalStore>(state => state?.user) as User
   const [editProfile, seteditProfile] = useState(false);
 
   const placeholderImg = "../../img/empty profile.jpg";

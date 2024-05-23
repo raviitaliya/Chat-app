@@ -6,6 +6,11 @@ import UserCard from "./UserCard"; // Ensure the path is correct based on your p
 const Message = () => {
   const [searchData, setSearchData] = useState("");
   const [resData, setResData] = useState([]);
+  const [searchOpen, setsearchOpen] = useState(false);
+
+  console.log(searchOpen);
+  
+  
 
   const searchUser = useCallback(async () => {
     if (searchData.trim() === "") {
@@ -35,6 +40,21 @@ const Message = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchData, searchUser]);
 
+  //handle search close open
+  useEffect(() => {
+    if(searchData === ''){
+      setsearchOpen(false)
+    }else{
+      setsearchOpen(true)
+    }
+  }, [searchData]);
+  
+
+  const handleSearch = (e) => {
+    setSearchData(e.target.value)
+    
+  };
+
   return (
     <div className=" h-screen overflow-hidden">
       <div className="p-4">
@@ -46,7 +66,7 @@ const Message = () => {
           <input
             type="text"
             value={searchData}
-            onChange={(e) => setSearchData(e.target.value)}
+            onChange={handleSearch}
             className="w-full p-1 rounded-md focus:outline-none select-none"
             placeholder="search or start new chat"
           />

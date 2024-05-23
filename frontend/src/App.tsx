@@ -64,6 +64,10 @@ function App() {
           path: "",
           element: <Home />,
         },
+        {
+          path: `/user/:id`,
+          element: <Home/>,
+        }
       ],
     }
   ]);
