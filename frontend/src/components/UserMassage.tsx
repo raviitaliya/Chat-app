@@ -39,7 +39,7 @@ const UserMassage = () => {
           <h1 className="font-medium text-xl">{userData.name}</h1>
           <h1
             className={`text-sm ${
-              userData.online ? "text-primary" : "text-slate-200"
+              userData.online ? "text-primary" : "text-slate-400"
             }`}
           >
             {userData.online ? "online" : "offline"}
