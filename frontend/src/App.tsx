@@ -6,7 +6,7 @@ import Home from "./components/Home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import AuthLayout from "./Auth/AuthLayout";
 import { Toaster} from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "./App.css";
 import axios from "axios";
@@ -14,10 +14,7 @@ import { setUser } from "./Redux/Slice";
 
 function App() {
 
-  const user = useSelector((state) => state?.user);
   const dispatch = useDispatch();
-
-  // console.log("data",user);
 
   const getUserdata = async () => {
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;

@@ -6,15 +6,13 @@ import { useNavigate } from "react-router-dom";
 import Message from "./Message";
 import io from "socket.io-client";
 import { useEffect } from "react";
-import { GlobalStore } from "../Redux/Store";
 import UserMassage from "./UserMassage";
 
 const Home = () => {
-  const user = useSelector<GlobalStore>((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(user);
+  
 
   const getUserdata = async () => {
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
@@ -46,7 +44,6 @@ const Home = () => {
     });
 
     socketconnection.on("onlineuser", (data) => {
-      console.log("online", data);
       dispatch(onlineUser(data));
     });
 
