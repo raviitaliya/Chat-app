@@ -1,50 +1,64 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
-const mesageScema = new mongoose.Schema(
+// Define the Message schema
+const messageSchema = new Schema(
   {
-    text:{
-      type : String,
-      default : ""
+    message: {
+      type: String,
+      default: "",
     },
-    imageUrl:{
-      type : String,
-      default : ""
+    image: {
+      type: String,
+      default: "",
     },
-    videoUrl:{
-      type : String,
-      default : ""
+    video: {
+      type: String,
+      default: "",
     },
-    seen:{
-      type : Boolean,
-      default : false,
-    }
+    seen: {
+      type: Boolean,
+      default: false,
+    },
+    msgById: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const conversationSemantic = new mongoose.Schema({
-  sender:{
-    type : mongoose.Schema.Types.ObjectId,
-    required : true,
-    ref : "User"
+const MessageModel = mongoose.models.Message || model("Message", messageSchema);
+
+const conversationSchema = new Schema(
+  {
+    sender: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    messages: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Message",
+        required: true,
+      },
+    ],
   },
-  receiver:{
-    type : mongoose.Schema.Types.ObjectId,
-    required : true,
-    ref : "User"
-  },
-  messages:[
-    {
-      type : mongoose.Schema.Types.ObjectId,
-      required : true
-    }
-  ]
-})
+  {
+    timestamps: true,
+  }
+);
 
-const messageModel = mongoose.model("User", mesageScema);
-const conversationModel= mongoose.model("Users", conversationSemantic);
+// Create and export the Conversation model
+const ConversationModel =
+  mongoose.models.Conversation || model("Conversation", conversationSchema);
 
-export {messageModel, conversationModel};
-
+export { ConversationModel, MessageModel };

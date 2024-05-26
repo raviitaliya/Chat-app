@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import { logout, onlineUser, setUser, setSocketConnection } from "../Redux/Slice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Message from "./Message";
 import io from "socket.io-client";
 import { useEffect } from "react";
@@ -11,7 +11,7 @@ import UserMassage from "./UserMassage";
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const params = useParams();
   
 
   const getUserdata = async () => {
@@ -53,6 +53,10 @@ const Home = () => {
       socketconnection.disconnect();
     };
   }, []);
+
+  if(params){
+    
+  }
 
   return (
     <div className="grid grid-cols-[400px,1fr] ">
